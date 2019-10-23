@@ -1,0 +1,54 @@
+name: CI
+on: [push]
+jobs:
+  build:
+    runs-on: windows-2019
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Dependencies
+      run: |
+        choco install -y vswhere
+    - name: Dump Environment
+      shell: powershell
+      run: |
+        $FormatEnumerationLimit = -1
+        function Write-Title($title) {
+          Write-Output "`n#`n# $title`n#"
+        }
+        Write-Title "whoami"
+        C:/Windows/System32/whoami /all
+        Write-Title "Windows version"
+        cmd /c ver
+        Write-Title "Working Directory"
+        Get-Location
+        Write-Title "Environment Variables"
+        dir env: `
+          | Format-Table -AutoSize `
+          | Out-String -Stream -Width ([int]::MaxValue) `
+          | ForEach-Object {$_.TrimEnd()}
+        Write-Title "PATH Environment Variable"
+        $env:PATH -split ';' `
+          | Format-Table -AutoSize `
+          | Out-String -Stream -Width ([int]::MaxValue) `
+          | ForEach-Object {$_.TrimEnd()}
+        Write-Title "TimeZone"
+        Get-TimeZone
+        Write-Title "Installed chocolatey packages"
+        choco list -l
+        Write-Title "Installed Windows Software"
+        Get-CimInstance Win32_Product `
+          | Select-Object Name,Version `
+          | Sort-Object Name,Version `
+          | Format-Table -AutoSize `
+          | Out-String -Stream -Width ([int]::MaxValue) `
+          | ForEach-Object {$_.TrimEnd()}
+        Write-Title "Default dotnet msbuild version"
+        dotnet msbuild -version
+        Write-Title "Known MSBuild versions"
+        vswhere -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe 
+    - name: Build CloudbaseInitSetup
+      shell: powershell
+      run: |
+        #dotnet msbuild -m -p:Configuration=Release CloudbaseInitSetup.sln
+        $msbuild = vswhere -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe | Select-Object -First 1
+        &$msbuild -m -p:Configuration=Release CloudbaseInitSetup.sln
