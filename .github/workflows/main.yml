@@ -8,6 +8,7 @@ jobs:
     - name: Dump Environment
       shell: powershell
       run: |
+        $FormatEnumerationLimit = -1
         function Write-Title($title) {
           Write-Output "`n#`n# $title`n#"
         }
