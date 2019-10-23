@@ -6,6 +6,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Dump Environment
+      shell: powershell
       run: |
         function Write-Title($title) {
           Write-Output "`n#`n# $title`n#"
