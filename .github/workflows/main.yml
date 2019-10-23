@@ -38,6 +38,7 @@ jobs:
         Write-Title "Installed Windows Software"
         Get-CimInstance Win32_Product `
           | Select-Object Name,Version `
+          | Sort-Object Name,Version `
           | Format-Table -AutoSize `
           | Out-String -Stream -Width ([int]::MaxValue) `
           | ForEach-Object {$_.TrimEnd()}
