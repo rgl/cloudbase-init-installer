@@ -30,3 +30,6 @@ jobs:
         Get-TimeZone
         Write-Title "msbuild version"
         dotnet msbuild -version
+    - name: Build CloudbaseInitSetup
+      shell: powershell
+      run: dotnet msbuild -m -p:Configuration=Release CloudbaseInitSetup.sln
