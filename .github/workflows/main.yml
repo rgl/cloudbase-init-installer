@@ -41,4 +41,7 @@ jobs:
         vswhere -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe 
     - name: Build CloudbaseInitSetup
       shell: powershell
-      run: dotnet msbuild -m -p:Configuration=Release CloudbaseInitSetup.sln
+      run: |
+        #dotnet msbuild -m -p:Configuration=Release CloudbaseInitSetup.sln
+        $msbuild = vswhere -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe | Select-Object -First 1
+        &$msbuild -m -p:Configuration=Release CloudbaseInitSetup.sln
