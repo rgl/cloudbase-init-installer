@@ -13,9 +13,11 @@ jobs:
           Write-Output "`n#`n# $title`n#"
         }
         Write-Title "whoami"
-        cmd /c "whoami /all"
+        C:/Windows/System32/whoami /all
         Write-Title "Windows version"
         cmd /c ver
+        Write-Title "Working Directory"
+        Get-Location
         Write-Title "Environment Variables"
         dir env: `
           | Format-Table -AutoSize `
