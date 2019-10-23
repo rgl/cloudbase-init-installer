@@ -1,0 +1,20 @@
+name: CI
+on: [push]
+jobs:
+  build:
+    runs-on: windows-2019
+    steps:
+    - uses: actions/checkout@v1
+    - name: Dump Environment
+      run: |
+        function Write-Title($title) {
+          Write-Output "`n#`n# $title`n#"
+        }
+        Write-Title "whoami"
+        whoami /all
+        Write-Title "Windows version"
+        cmd /c ver
+        Write-Title "Environment Variables"
+        dir env:
+        Write-Title "TimeZone"
+        Get-TimeZone
