@@ -36,7 +36,7 @@ jobs:
         Write-Title "Installed chocolatey packages"
         choco list -l
         Write-Title "Installed Windows Software"
-        Get-CimInstance Win32_Product | Select-Object Name,PackageName,InstallDate
+        Get-CimInstance Win32_Product | Select-Object Name,PackageName,Version
         Write-Title "Default dotnet msbuild version"
         dotnet msbuild -version
         Write-Title "Known MSBuild versions"
