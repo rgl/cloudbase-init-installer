@@ -30,7 +30,9 @@ jobs:
           | ForEach-Object {$_.TrimEnd()}
         Write-Title "TimeZone"
         Get-TimeZone
-        Write-Title "msbuild version"
+        Write-Title "installed chocolatey packages"
+        choco list -l
+        Write-Title "default dotnet msbuild version"
         dotnet msbuild -version
     - name: Build CloudbaseInitSetup
       shell: powershell
