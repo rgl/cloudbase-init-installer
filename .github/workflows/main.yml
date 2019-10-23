@@ -21,5 +21,10 @@ jobs:
           | Format-Table -AutoSize `
           | Out-String -Stream -Width ([int]::MaxValue) `
           | ForEach-Object {$_.TrimEnd()}
+        Write-Title "PATH Environment Variable"
+        $env:PATH -split ';' `
+          | Format-Table -AutoSize `
+          | Out-String -Stream -Width ([int]::MaxValue) `
+          | ForEach-Object {$_.TrimEnd()}
         Write-Title "TimeZone"
         Get-TimeZone
