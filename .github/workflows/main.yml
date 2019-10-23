@@ -13,10 +13,13 @@ jobs:
           Write-Output "`n#`n# $title`n#"
         }
         Write-Title "whoami"
-        whoami /all
+        cmd /c "whoami /all"
         Write-Title "Windows version"
         cmd /c ver
         Write-Title "Environment Variables"
-        dir env:
+        dir env: `
+          | Format-Table -AutoSize `
+          | Out-String -Stream -Width ([int]::MaxValue) `
+          | ForEach-Object {$_.TrimEnd()}
         Write-Title "TimeZone"
         Get-TimeZone
