@@ -28,3 +28,5 @@ jobs:
           | ForEach-Object {$_.TrimEnd()}
         Write-Title "TimeZone"
         Get-TimeZone
+        Write-Title "msbuild version"
+        dotnet msbuild -version
