@@ -5,6 +5,9 @@ jobs:
     runs-on: windows-2019
     steps:
     - uses: actions/checkout@v1
+    - name: Install Dependencies
+      run: |
+        choco install -y vswhere
     - name: Dump Environment
       shell: powershell
       run: |
@@ -30,10 +33,12 @@ jobs:
           | ForEach-Object {$_.TrimEnd()}
         Write-Title "TimeZone"
         Get-TimeZone
-        Write-Title "installed chocolatey packages"
+        Write-Title "Installed chocolatey packages"
         choco list -l
-        Write-Title "default dotnet msbuild version"
+        Write-Title "Default dotnet msbuild version"
         dotnet msbuild -version
+        Write-Title "Known MSBuild versions"
+        vswhere -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe 
     - name: Build CloudbaseInitSetup
       shell: powershell
       run: dotnet msbuild -m -p:Configuration=Release CloudbaseInitSetup.sln
