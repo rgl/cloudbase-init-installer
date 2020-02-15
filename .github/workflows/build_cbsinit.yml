@@ -10,7 +10,9 @@ jobs:
       max-parallel: 100
       matrix:
         cbsinit_repo: ['https://github.com/rgl/cloudbase-init']
-        cbsinit_branch: ['master']
+        cbsinit_branch:
+          - master
+          - add-no-cloud
 
     steps:
     - uses: actions/checkout@v1
@@ -25,5 +27,5 @@ jobs:
             -CloudbaseInitRepoUrl ${{ matrix.cbsinit_repo }} -CloudbaseInitRepoBranch ${{ matrix.cbsinit_branch }}
     - uses: actions/upload-artifact@v1
       with:
-        name: CloudbaseInit x64 MSI
-        path: 'CloudbaseInitSetup/bin/Release/x64'
+        name: ${{ matrix.cbsinit_branch }} msi
+        path: CloudbaseInitSetup/bin/Release/x64/CloudbaseInitSetup.msi
