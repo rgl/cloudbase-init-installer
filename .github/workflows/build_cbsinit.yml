@@ -12,7 +12,6 @@ jobs:
         cbsinit_repo: ['https://github.com/rgl/cloudbase-init']
         cbsinit_branch:
           - master
-          - add-no-cloud
 
     steps:
     - uses: actions/checkout@v1
